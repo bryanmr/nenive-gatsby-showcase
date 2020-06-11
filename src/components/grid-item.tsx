@@ -10,9 +10,6 @@ const GridItem = styled(Link)`
     bottom: 0;
     left: 0;
   }
-  > div img {
-    transition: all 0.3s ease 0s !important;
-  }
   > span {
     z-index: 10;
     color: white;

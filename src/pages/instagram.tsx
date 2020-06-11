@@ -64,9 +64,6 @@ const Bottom = styled(Flex)`
 const Item = styled(animated.a)`
   position: relative;
   overflow: hidden;
-  > div img {
-    transition: all 0.3s ease 0s !important;
-  }
   &:hover {
     ${Overlay} {
       opacity: 1;

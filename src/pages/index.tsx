@@ -118,13 +118,17 @@ const Index: React.FunctionComponent<PageProps> = ({ data: { firstProject, three
         <ThreeProjects>
           {threeProjects.nodes.map((project) => (
             <GridItem to={project.slug} key={project.slug} aria-label={`View project "${project.title}"`}>
-              <Img fluid={project.cover.childImageSharp.fluid} />
+              <Img
+                fluid={project.cover.childImageSharp.fluid}
+              />
               <span>{project.title}</span>
             </GridItem>
           ))}
         </ThreeProjects>
         <Instagram to="/instagram" aria-label="See my Instagram pictures">
-          <Img fluid={instagram.childImageSharp.fluid} />
+          <Img
+            fluid={instagram.childImageSharp.fluid}
+          />
           <span>Instagram</span>
         </Instagram>
       </Area>
@@ -134,17 +138,33 @@ const Index: React.FunctionComponent<PageProps> = ({ data: { firstProject, three
 
 export default Index
 
+export const mainGrid = graphql`
+  fragment mainGrid on File {
+    childImageSharp {
+      fluid(quality: 95, maxWidth: 1200) {
+        ...GatsbyImageSharpFluid_tracedSVG
+      }
+    }
+  }
+`
+
+export const extraWide = graphql`
+  fragment extraWide on File {
+    childImageSharp {
+      fluid(quality: 95, maxWidth: 1920) {
+        ...GatsbyImageSharpFluid_tracedSVG
+      }
+    }
+  }
+`
+
 export const query = graphql`
   query Index {
     firstProject: projectsYaml {
       title
       slug
       cover {
-        childImageSharp {
-          fluid(quality: 95, maxWidth: 1200) {
-            ...GatsbyImageSharpFluid_withWebp
-          }
-        }
+        ...mainGrid
       }
     }
     threeProjects: allProjectsYaml(limit: 3, skip: 1) {
@@ -152,27 +172,15 @@ export const query = graphql`
         title
         slug
         cover {
-          childImageSharp {
-            fluid(quality: 95, maxWidth: 1200) {
-              ...GatsbyImageSharpFluid_withWebp
-            }
-          }
+          ...mainGrid
         }
       }
     }
     aboutUs: file(sourceInstanceName: { eq: "images" }, name: { eq: "about-us" }) {
-      childImageSharp {
-        fluid(quality: 95, maxWidth: 1200) {
-          ...GatsbyImageSharpFluid_withWebp
-        }
-      }
+      ...mainGrid
     }
     instagram: file(sourceInstanceName: { eq: "images" }, name: { eq: "instagram" }) {
-      childImageSharp {
-        fluid(quality: 95, maxWidth: 1920) {
-          ...GatsbyImageSharpFluid_withWebp
-        }
-      }
+      ...extraWide
     }
   }
 `
